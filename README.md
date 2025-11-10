@@ -10,6 +10,10 @@ go mod init blog-system-server
 
 使用go get 添加 Gin 框架
 
+~~~bash
+go get -u github.com/gin-gonic/gin
+~~~
+
 ##### 3. 编写测试代码
 
 创建main.go 文件，写入一个简单的测试用例
