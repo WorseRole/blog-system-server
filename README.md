@@ -86,6 +86,9 @@ updated_at	// 更新时间
 
 项目结构：
 
+- **Service层**：处理纯业务逻辑，不知道HTTP细节
+- **Handler层**：处理HTTP协议，不知道业务细节
+
 ~~~text
 blog-system-server/
 ├── cmd/
@@ -119,4 +122,23 @@ blog-system-server/
 ~~~
 
 
+
+在目录下创建 `.env` 配置文件，在`config.go` 中读取并配置
+
+~~~.env
+# mysql 配置
+MYSQL_HOST = localhost
+MYSQL_PORT = 3306
+MYSQL_USER = root
+MYSQL_PASSWORD = xxxyyyzzz
+MYSQL_DATABASE = xxxyyyzzz
+
+# 服务器配置
+SERVER_PORT = 8080
+ENV=development
+
+# JWT配置
+
+# Redis配置
+~~~
 

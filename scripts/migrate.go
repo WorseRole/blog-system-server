@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+
 	// 初始化数据库连接
 	cfg := config.Load()
 	if err := storage.InitDB(cfg); err != nil {
