@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"blog-system-server/internal/config"
 	"blog-system-server/internal/models"
 	"fmt"
 	"log"
@@ -12,8 +13,14 @@ import (
 var DB *gorm.DB
 
 // 数据库初始化连接
-func InitDB() error {
-	dsn := "root:root@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
+func InitDB(cfg *config.Config) error {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		cfg.MYSQLUser,
+		cfg.MYSQLPassword,
+		cfg.MYSQLHost,
+		cfg.MYSQLPort,
+		cfg.MYSQLDatabase)
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Printf("数据库连接失败: %v", err)
