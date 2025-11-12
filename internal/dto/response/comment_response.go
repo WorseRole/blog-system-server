@@ -2,11 +2,11 @@ package response
 
 import "time"
 
-type CreatePostResponse struct {
+type CreateCommentResponse struct {
 	ID        uint64    `json:"id"`
-	Title     string    `json:"title"`
 	Content   string    `json:"content"`
-	UserID    uint64    `json:"userID"`
+	UserID    uint64    `json:"user_id"`
+	PostID    uint64    `json:"post_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

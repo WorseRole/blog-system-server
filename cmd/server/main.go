@@ -28,6 +28,9 @@ func main() {
 	postService := services.NewPostService(storage.DB)
 	postHandler := handlers.NewPostHandler(postService)
 
+	commentService := services.NewCommentService(storage.DB)
+	commentHandler := handlers.NewCommentHandler(commentService)
+
 	// 设置路由
 	r := gin.Default()
 
@@ -53,9 +56,14 @@ func main() {
 	{
 		// 这里添加需要认证的路由 测试
 		// authRoutes.GET/POST
+
+		// 文章
 		authRoutes.POST("/post/create", postHandler.CreatePost)
 		authRoutes.POST("/post/update", postHandler.UpdatePost)
 		authRoutes.POST("/post/delete", postHandler.DeletePost)
+
+		// 评论
+		authRoutes.POST("/comment/create", commentHandler.CreateComment)
 
 	}
 
