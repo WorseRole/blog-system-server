@@ -47,6 +47,7 @@ func (postService *PostService) CreatePost(req *request.CreatePostRequest) (*res
 	}, nil
 }
 
+// todo 返回的时候可能还需要找到对应的 User信息和Comment信息
 // 更新文章Post
 func (postService *PostService) UpdatePost(req *request.UpdatePostRequest) (*response.CreatePostResponse, error) {
 	// 校验参数
@@ -103,6 +104,7 @@ func (postService *PostService) UpdatePost(req *request.UpdatePostRequest) (*res
 	}, nil
 }
 
+// todo 删除的时候返回 可能还需要找到对应的User和Comment信息  以及还需要删除  Post对应的Comment
 // 删除文章
 func (postService *PostService) DeletePost(req *request.DeletePostRequest) (*response.CreatePostResponse, error) {
 	// 校验参数
