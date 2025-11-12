@@ -27,7 +27,7 @@ func (authService *AuthService) Login(req request.LoginUserRequest) (*response.L
 	// 1. 先检查用户是否存在
 	var existingUser = models.Users{}
 
-	if err := authService.db.Where("username = ?", req.Username).First(&existingUser).Error; err != nil {
+	if err := authService.db.Where("is_del= 0 and username = ?", req.Username).First(&existingUser).Error; err != nil {
 		// 用户不存在
 		log.Printf("用户不存在:%s, err:%v", req.Username, err)
 		return nil, errors.New("用户不存在")
