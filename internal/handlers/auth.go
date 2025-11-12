@@ -24,6 +24,25 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 	}
 }
 
+// 登录接口
+func (h *AuthHandler) Login(c *gin.Context) {
+	var req request.LoginUserRequest
+
+	// 绑定并验证请求参数
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.BadRequest(c, "请求参数错误,参数不对")
+		return
+	}
+	// 调用业务服务
+	result, err := h.authService.Login(req)
+	if err != nil {
+		response.Error(c, err.Error())
+		return
+	}
+	// 返回成功响应
+	response.Success(c, "登录成功", result)
+}
+
 // 注册接口
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req request.RegisterRequest

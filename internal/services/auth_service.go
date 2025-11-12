@@ -22,6 +22,38 @@ func NewAuthService(db *gorm.DB) *AuthService {
 	}
 }
 
+// 登录 让authService调
+func (authService *AuthService) Login(req request.LoginUserRequest) (*response.LoginUserResponse, error) {
+	// 1. 先检查用户是否存在
+	var existingUser = models.Users{}
+
+	if err := authService.db.Where("username = ?", req.Username).First(&existingUser).Error; err != nil {
+		// 用户不存在
+		log.Printf("用户不存在:%s, err:%v", req.Username, err)
+		return nil, errors.New("用户不存在")
+	}
+	// 2. 通过查询拿到密码+盐 进行Hash 校验密码
+	bol := utils.CheckPasswordWithSalt(req.Password, existingUser.Password, existingUser.Salt)
+	if !bol {
+		// 校验未通过
+		log.Printf("密码不对.username:%s, password:%s", req.Username, req.Password)
+		return nil, errors.New("密码不匹配")
+	}
+	// 3. 生成JWT Token
+	token, err := utils.GenerateJWT(existingUser.ID, existingUser.Username)
+	if err != nil {
+		log.Printf("生成Token失败.username:%s", req.Username)
+		return nil, errors.New("生成Token失败")
+	}
+	// 返回结果
+	return &response.LoginUserResponse{
+		Token:    token,
+		ID:       existingUser.ID,
+		Username: existingUser.Username,
+		Email:    existingUser.Email,
+	}, nil
+}
+
 // 注册 让authService调
 func (authService *AuthService) Register(request request.RegisterRequest) (*response.RegisterResponse, error) {
 	// 1. 先检查 用户名是否存在

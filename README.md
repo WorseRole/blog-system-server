@@ -10,14 +10,19 @@ go mod init blog-system-server
 
 ##### 2. 安装依赖： 
 
-使用go get 添加 Gin 框架
+使用go get 添加 Gin 框架等包
 
 ~~~bash
+// gin框架包
 go get -u github.com/gin-gonic/gin
+// gorm包
 go get -u gorm.io/gorm
+// mysql驱动包
 go get -u gorm.io/driver/mysql
-
+// 这个是读配置文件的包
 go get github.com/joho/godotenv
+// 这个是jwt的包
+go get -u github.com/golang-jwt/jwt/v4
 ~~~
 
 ##### 3. 编写测试代码
@@ -141,4 +146,150 @@ ENV=development
 
 # Redis配置
 ~~~
+
+
+
+
+
+### 接口文档
+
+#### 1. 用户相关
+
+##### 1.1. 注册接口	✅	已完成
+
+>  接口说明：用户进行注册账号，创建成功后需要重新进行登录，需要账号，密码，邮箱
+
+>  是否需要Token：否
+
+URL：
+
+~~~http
+POST  http://localhost:8080/api/auth/register
+~~~
+
+传参：
+
+~~~json
+{
+    "username":"leoYan",
+    "password":"xxx***yyy",
+    "email":"leoyan9527@outlook.com"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "注册成功,请登录",
+    "data": {
+        "id": 1,
+        "username": "leoYan",
+        "email": "leoyan9527@outlook.com"
+    }
+}
+~~~
+
+##### 1.2. 登录接口	✅	已完成
+
+>  接口说明：用户输入账号、密码进行登录，得到JWT Token 认证
+
+>  是否需要Token：否
+
+URL:
+
+~~~http
+POST	http://localhost:8080/api/auth/login
+~~~
+
+传参：
+
+~~~json
+{
+    "username":"leoYan",
+    "password":"xxx***yyy"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "登录成功",
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzA2MTA0MCwibmJmIjoxNzYyOTc0NjQwLCJpYXQiOjE3NjI5NzQ2NDB9.7hjKcZ-qExWIbIrCWuFpXyB_bxSHe5OmQd5UaQ9wNHY",
+        "id": 1,
+        "username": "leoYan",
+        "email": "leoyan9527@outlook.com"
+    }
+}
+~~~
+
+#### 2. 文章相关
+
+##### 2.1. 创建post接口	✅	已完成
+
+>  接口说明：创建文章，需要已经登录认证的用户才可以创建文章，创建文章时需要 title和content都不能为空
+
+>  是否需要Token：是
+
+URL:
+
+~~~http
+POST  http://localhost:8080/api/post/create
+~~~
+
+传参：
+
+~~~json
+{
+    "title":"GoLang基础学习",
+    "content":"1.需要认证学习打牢基础; 2.需要进行实践用起来"
+}
+~~~
+
+返回结果
+
+~~~json
+{
+    "code": 200,
+    "message": "创建文章成功",
+    "data": {
+        "id": 1,
+        "title": "GoLang基础学习",
+        "content": "1.需要认证学习打牢基础; 2.需要进行实践用起来",
+        "user_id": 1,
+        "created_at": "2025-11-13T03:11:36.581+08:00",
+        "updated_at": "2025-11-13T03:11:36.581+08:00"
+    }
+}
+~~~
+
+
+
+更新post接口（文章作者才可更新）
+
+删除post接口（文章作者自己才可删）
+
+查询post接口（all 所有文章列表 + 单个文章的详细信息）
+
+
+
+// 评论相关
+
+评论创建功能（已认证用户可对文章进行评论）
+
+查询评论功能（读取某文章的所有评论）
+
+
+
+// 错误处理和日志记录
+
+response中ERROR 
+
+log打印
+
+
 
