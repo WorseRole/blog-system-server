@@ -1,0 +1,7 @@
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:08:05.895+0800","caller":"logger/logger.go:89","msg":"应用启动","env":"development","port":":8080"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:08:05.916+0800","caller":"server/main.go:85","msg":"服务器启动成功","port":":8080"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:08:29.579+0800","caller":"services/auth_service.go:29","msg":"用户登录日志","username":"leoYan"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:08:29.669+0800","caller":"middleware/access_log.go:19","msg":"HTTP请求","method":"POST","path":"/api/auth/login","status":200,"client_ip":"::1","user_agent":"PostmanRuntime/7.50.0","latency":0.091313483,"response_size":362}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:10:52.187+0800","caller":"middleware/access_log.go:19","msg":"HTTP请求","method":"GET","path":"/api/post/lists","status":200,"client_ip":"::1","user_agent":"PostmanRuntime/7.50.0","latency":0.009745979,"response_size":647}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:11:03.513+0800","caller":"middleware/access_log.go:19","msg":"HTTP请求","method":"GET","path":"/api/post/lists","status":200,"client_ip":"::1","user_agent":"PostmanRuntime/7.50.0","latency":0.000574473,"response_size":647}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-11-14T04:11:29.757+0800","caller":"middleware/access_log.go:19","msg":"HTTP请求","method":"GET","path":"/api/post/detail","status":200,"client_ip":"::1","user_agent":"PostmanRuntime/7.50.0","latency":0.005394288,"response_size":477}

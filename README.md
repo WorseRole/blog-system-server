@@ -617,11 +617,17 @@ GET  http://localhost:8080/api/comment/lists?post_id=2
 
 
 
-// 错误处理和日志记录
+## 错误处理和日志记录
 
-response中ERROR 
+#### response
 
-log打印
+> 用pkg.response.response.go 来进行输出 状态码和 信息
+
+#### log打印
+
+> 用pkg.logger.logger.go 以及 access_log.log 中间件进行日志输出打印
+>
+> 增加.env的日志配置
 
 
 

@@ -4,9 +4,11 @@ import (
 	"blog-system-server/internal/dto/request"
 	"blog-system-server/internal/dto/response"
 	"blog-system-server/internal/models"
+	"blog-system-server/pkg/logger"
 	"errors"
 	"time"
 
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -23,6 +25,11 @@ func NewPostService(db *gorm.DB) *PostService {
 
 // 创建文章Post
 func (postService *PostService) CreatePost(req *request.CreatePostRequest) (*response.CreatePostResponse, error) {
+	logger.Logger.Info(
+		"创建文章",
+		zap.Uint64("user_id", req.UserID),
+		zap.String("title", req.Title),
+	)
 	// 验参
 	if req.Content == "" || req.Title == "" || req.UserID == 0 {
 		return nil, errors.New("参数不能为空")
@@ -37,6 +44,11 @@ func (postService *PostService) CreatePost(req *request.CreatePostRequest) (*res
 		return nil, errors.New("创建文章失败")
 	}
 
+	logger.Logger.Info("创建文章成功",
+		zap.Uint64("post_id", post.ID),
+		zap.Uint64("user_id", req.UserID),
+	)
+
 	return &response.CreatePostResponse{
 		ID:        post.ID,
 		Title:     post.Title,
@@ -47,7 +59,6 @@ func (postService *PostService) CreatePost(req *request.CreatePostRequest) (*res
 	}, nil
 }
 
-// todo 返回的时候可能还需要找到对应的 User信息和Comment信息
 // 更新文章Post
 func (postService *PostService) UpdatePost(req *request.UpdatePostRequest) (*response.CreatePostResponse, error) {
 	// 校验参数
@@ -104,8 +115,7 @@ func (postService *PostService) UpdatePost(req *request.UpdatePostRequest) (*res
 	}, nil
 }
 
-// todo 删除的时候返回 可能还需要找到对应的User和Comment信息  以及还需要删除  Post对应的Comment
-// 删除文章
+// 删除文章 是否需要同时也删除文章对应的评论呢？
 func (postService *PostService) DeletePost(req *request.DeletePostRequest) (*response.CreatePostResponse, error) {
 	// 校验参数
 	if req.ID == 0 {

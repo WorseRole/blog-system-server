@@ -17,6 +17,7 @@ type Config struct {
 	MYSQLDatabase string
 	ServerPort    string
 	Env           string
+	LogLevel      string
 }
 
 func Load() *Config {
@@ -45,6 +46,7 @@ func Load() *Config {
 		MYSQLDatabase: getEnv("MYSQL_DATABASE", "blog_system"),
 		ServerPort:    getEnv("SERVER_PORT", ":8080"),
 		Env:           getEnv("ENV", "development"),
+		LogLevel:      getEnv("LOG_LEVEL", "info"),
 	}
 }
 

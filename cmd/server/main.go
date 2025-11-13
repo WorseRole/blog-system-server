@@ -6,15 +6,28 @@ import (
 	"blog-system-server/internal/middleware"
 	"blog-system-server/internal/services"
 	"blog-system-server/internal/storage"
+	"blog-system-server/pkg/logger"
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func main() {
 
 	// 加载配置
 	cfg := config.Load()
+
+	// 初始化日志系统
+	if err := logger.InitLogger(cfg); err != nil {
+		log.Fatal("日志初始化失败:", err)
+	}
+	defer logger.Logger.Sync()
+
+	logger.Info("应用启动",
+		zap.String("env", cfg.Env),
+		zap.String("port", cfg.ServerPort),
+	)
 
 	// 连接数据库
 	if err := storage.InitDB(cfg); err != nil {
@@ -34,15 +47,13 @@ func main() {
 	// 设置路由
 	r := gin.Default()
 
+	// 注册访问日志中间件（所有请求都会记录）
+	r.Use(middleware.AccessLog())
+
 	// 公开路由 不需要认证的路由
-	// 注册路由
 	r.POST("/api/auth/register", authHandler.Register)
-
-	// 登录路由
 	r.POST("/api/auth/login", authHandler.Login)
-
 	// 探活 hello blog
-	// r := gin.Default()
 	r.GET("/hello", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"message": "hello blog",
@@ -71,8 +82,6 @@ func main() {
 	}
 
 	// 启动服务
-	log.Printf("服务器启动在 %s 这个端口", cfg.ServerPort)
+	logger.Logger.Info("服务器启动成功", zap.String("port", cfg.ServerPort))
 	r.Run(cfg.ServerPort)
-
-	// r.Run()
 }
