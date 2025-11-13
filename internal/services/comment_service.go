@@ -28,7 +28,7 @@ func (commentService *CommentService) CreateComment(req *request.CreateCommentRe
 	}
 	var post models.Posts
 	// 查看文章是否存在
-	if err := commentService.db.Where("is_del = 0 and post_id = ?").First(&post).Error; err != nil {
+	if err := commentService.db.Where("is_del = 0 and id = ?", req.PostID).First(&post).Error; err != nil {
 		return nil, errors.New("评论的该文章不存在")
 	}
 

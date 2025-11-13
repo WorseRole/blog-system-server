@@ -151,7 +151,7 @@ ENV=development
 
 
 
-### 接口文档
+### 接口文档 (同样为Postman 测试用例)
 
 #### 1. 用户相关
 
@@ -190,6 +190,8 @@ POST  http://localhost:8080/api/auth/register
     }
 }
 ~~~
+
+
 
 ##### 1.2. 登录接口	✅	已完成
 
@@ -241,7 +243,15 @@ URL:
 POST  http://localhost:8080/api/post/create
 ~~~
 
-传参：
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+传参body：
 
 ~~~json
 {
@@ -250,7 +260,7 @@ POST  http://localhost:8080/api/post/create
 }
 ~~~
 
-返回结果
+返回结果：
 
 ~~~json
 {
@@ -269,19 +279,300 @@ POST  http://localhost:8080/api/post/create
 
 
 
-更新post接口（文章作者才可更新）
+##### 2.2 更新post接口	✅	已完成
 
-删除post接口（文章作者自己才可删）
+> 接口说明: 更新文章 标题或内容（文章作者才可更新）
 
-查询post接口（all 所有文章列表 + 单个文章的详细信息）
+> 是否需要Token：是
+
+URL:
+
+~~~http
+POST  http://localhost:8080/api/post/update
+~~~
+
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+传参body：
+
+~~~json
+{
+    "id":1,
+    "title":"GoLang基础学习01",
+    "content":"1.需要认证学习打牢基础; 2.需要进行实践用起来; 3.做项目运用； 4.看八股面经以及刷算法"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "更新文章成功",
+    "data": {
+        "id": 1,
+        "title": "GoLang基础学习01",
+        "content": "1.需要认证学习打牢基础; 2.需要进行实践用起来; 3.做项目运用； 4.看八股面经以及刷算法",
+        "user_id": 1,
+        "created_at": "2025-11-13T03:11:37+08:00",
+        "updated_at": "2025-11-14T02:52:39+08:00"
+    }
+}
+~~~
 
 
 
-// 评论相关
+##### 2.3 删除post接口	✅	已完成
 
-评论创建功能（已认证用户可对文章进行评论）
+> 接口说明: 删除文章 标题或内容（文章作者自己才可删）
 
-查询评论功能（读取某文章的所有评论列表）
+> 是否需要Token：是
+
+URL:
+
+~~~http
+POST  http://localhost:8080/api/post/delete
+~~~
+
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+传参body：
+
+~~~json
+{
+    "id":1
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "删除文章成功",
+    "data": {
+        "id": 1,
+        "title": "GoLang基础学习01",
+        "content": "1.需要认证学习打牢基础; 2.需要进行实践用起来; 3.做项目运用； 4.看八股面经以及刷算法",
+        "user_id": 1,
+        "created_at": "2025-11-13T03:11:37+08:00",
+        "updated_at": "2025-11-14T02:56:34+08:00"
+    }
+}
+~~~
+
+
+
+##### 2.4 查询post列表接口	✅	已完成
+
+> 接口说明: 删除文章 标题或内容（文章作者自己才可删）
+
+> 是否需要Token：是
+
+URL:
+
+~~~http
+GET  http://localhost:8080/api/post/lists
+~~~
+
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "成功获取文章列表",
+    "data": [
+        {
+            "id": 4,
+            "user_id": 1,
+            "title": "GoLang高级学习",
+            "content": "1.需要高级学习; 2.DApp后端开发学习",
+            "created_at": "2025-11-14T03:06:07+08:00",
+            "updated_at": "2025-11-14T03:06:07+08:00"
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "title": "GoLang进阶学习",
+            "content": "1.需要进阶学习; 2.需要做清楚项目",
+            "created_at": "2025-11-14T03:05:35+08:00",
+            "updated_at": "2025-11-14T03:05:35+08:00"
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "title": "GoLang基础学习",
+            "content": "1.需要认证学习打牢基础; 2.需要进行实践用起来",
+            "created_at": "2025-11-14T03:03:05+08:00",
+            "updated_at": "2025-11-14T03:03:05+08:00"
+        }
+    ]
+}
+~~~
+
+
+
+##### 2.5 查询post单个文章详情接口	✅	已完成
+
+> 接口详情：已认证登录的用户可查询单个文章的详情（可以查看文章对应的作者以及评论以及评论的作者信息）
+
+> 是否需要Token：是
+
+URL:
+
+~~~http
+GET  http://localhost:8080/api/post/detail?post_id=2
+~~~
+
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "成功获取文章详细信息",
+    "data": {
+        "id": 2,
+        "user_id": 0,
+        "title": "GoLang基础学习",
+        "content": "1.需要认证学习打牢基础; 2.需要进行实践用起来",
+        "comments": [
+            {
+                "id": 1,
+                "content": "一本非常优秀的书，基础教学扎实。赞！",
+                "user": {
+                    "id": 1,
+                    "username": "leoYan"
+                },
+                "created_at": "2025-11-14T03:19:05+08:00",
+                "updated_at": "2025-11-14T03:19:05+08:00"
+            }
+        ],
+        "created_at": "2025-11-14T03:03:05+08:00",
+        "updated_at": "2025-11-14T03:03:05+08:00"
+    }
+}
+~~~
+
+
+
+#### 3. 评论相关
+
+##### 3.1评论创建功能	✅	已完成
+
+> 接口说明：已认证用户可对文章进行评论 创建评论
+
+> 是否需要Token：是
+
+URL:
+
+~~~http
+POST  http://localhost:8080/api/comment/create
+~~~
+
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+传参body:
+
+~~~json
+{
+    "post_id":2,
+    "content":"一本非常优秀的书，基础教学扎实。赞！"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "创建评论成功",
+    "data": {
+        "id": 1,
+        "content": "一本非常优秀的书，基础教学扎实。赞！",
+        "user_id": 1,
+        "post_id": 2,
+        "created_at": "2025-11-14T03:19:04.568+08:00",
+        "updated_at": "2025-11-14T03:19:04.568+08:00"
+    }
+}
+~~~
+
+
+
+##### 2.5 查询评论功能	✅	已完成
+
+> 接口说明：已认证用户可对查看某文章的所有评论列表
+
+> 是否需要Token：是
+
+URL:
+
+~~~http
+GET  http://localhost:8080/api/comment/lists?post_id=2
+~~~
+
+传参header：
+
+~~~json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imxlb1lhbiIsImlzcyI6ImJsb2ctc3lzdGVtIiwic3ViIjoidXNlci10b2tlbiIsImV4cCI6MTc2MzE0NjE5NiwibmJmIjoxNzYzMDU5Nzk2LCJpYXQiOjE3NjMwNTk3OTZ9.-BpBhTSb7SgR-syS3p77bXeAjKFUw69EUvEyxlo76Tc"
+}
+~~~
+
+返回结果：
+
+~~~json
+{
+    "code": 200,
+    "message": "通过post_id读取评论列表成功",
+    "data": [
+        {
+            "id": 1,
+            "content": "一本非常优秀的书，基础教学扎实。赞！",
+            "user_id": 1,
+            "post_id": 2,
+            "created_at": "2025-11-14T03:19:05+08:00",
+            "updated_at": "2025-11-14T03:19:05+08:00"
+        }
+    ]
+}
+~~~
+
+
 
 
 
