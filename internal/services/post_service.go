@@ -22,7 +22,7 @@ func NewPostService(db *gorm.DB) *PostService {
 }
 
 // 创建文章Post
-func (postService *PostService) CreatePost(req *request.CreatePostRequest) (*response.SelectPostResponse, error) {
+func (postService *PostService) CreatePost(req *request.CreatePostRequest) (*response.CreatePostResponse, error) {
 	// 验参
 	if req.Content == "" || req.Title == "" || req.UserID == 0 {
 		return nil, errors.New("参数不能为空")
@@ -222,7 +222,6 @@ func (postService *PostService) SelectPostDetial(req *request.SelectPostRequestO
 		})
 	}
 
-	// 构造返回参数
 	return &response.SelectPostDetialResponse{
 		ID:               posts.ID,
 		Title:            posts.Title,
