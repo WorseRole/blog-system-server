@@ -51,3 +51,28 @@ func (commentService *CommentService) CreateComment(req *request.CreateCommentRe
 		UpdatedAt: comment.UpdatedAt,
 	}, nil
 }
+
+// 读取评论 支持获取某篇文章的所有评论列表 --列表并不是所有信息
+func (commentService *CommentService) SelectCommentsListByPostID(postID uint64) (*[]response.CreateCommentResponse, error) {
+	// 校验参数
+	if postID == 0 {
+		return nil, errors.New("读取某篇文章的所有评论列表失败")
+	}
+	// 根据post_id查询所有评论列表
+	var comments []models.Comments
+	if err := commentService.db.Find(&comments, models.Comments{PostID: postID, IsDel: 0}).Error; err != nil {
+		return nil, errors.New("post_id查询所有评论列表失败")
+	}
+	var result []response.CreateCommentResponse = make([]response.CreateCommentResponse, 0)
+	for _, comment := range comments {
+		result = append(result, response.CreateCommentResponse{
+			ID:        comment.ID,
+			Content:   comment.Content,
+			UserID:    comment.UserID,
+			PostID:    comment.PostID,
+			CreatedAt: comment.CreatedAt,
+			UpdatedAt: comment.UpdatedAt,
+		})
+	}
+	return &result, nil
+}

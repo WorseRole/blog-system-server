@@ -61,9 +61,12 @@ func main() {
 		authRoutes.POST("/post/create", postHandler.CreatePost)
 		authRoutes.POST("/post/update", postHandler.UpdatePost)
 		authRoutes.POST("/post/delete", postHandler.DeletePost)
+		authRoutes.GET("/post/lists", postHandler.SelectPostsLists)
+		authRoutes.GET("/post/detail", postHandler.SelectPostDetial)
 
 		// 评论
 		authRoutes.POST("/comment/create", commentHandler.CreateComment)
+		authRoutes.GET("/comment/lists", commentHandler.SelectCommentsListByPostID)
 
 	}
 

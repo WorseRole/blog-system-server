@@ -19,3 +19,8 @@ type DeletePostRequest struct {
 	ID     uint64 `json:"id" binding:"required"`
 	UserID uint64 `json:"-"` // 不从json获取，是从上下文中获取的
 }
+
+// 查询Post详细信息传参 Query Param 为 form
+type SelectPostRequestOne struct {
+	ID uint64 `form:"post_id" binding:"required,min=1"`
+}

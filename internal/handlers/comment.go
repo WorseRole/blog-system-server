@@ -30,7 +30,7 @@ func (commentHandler *CommentHandler) CreateComment(c *gin.Context) {
 	var req request.CreateCommentRequest
 	// 2. 获取参数
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.BadRequest(c, "请求参数错误,参数不对")
+		response.BadRequest(c, "请求参数错误: "+err.Error())
 		return
 	}
 	req.UserID = UserID
@@ -41,4 +41,25 @@ func (commentHandler *CommentHandler) CreateComment(c *gin.Context) {
 		return
 	}
 	response.Success(c, "创建评论成功", result)
+}
+
+// 通过 post_id 读取评论列表接口
+func (commentHandler *CommentHandler) SelectCommentsListByPostID(c *gin.Context) {
+	// 1. 先获取UserID
+	_, exists := middleware.GetUserIDFromContext(c)
+	if !exists {
+		response.Error(c, "系统错误:用户丢失")
+		return
+	}
+	var req request.SelectCommentsListByPostIDRequest
+	if err := c.ShouldBindQuery(&req); err != nil {
+		response.BadRequest(c, "请求参数错误: "+err.Error())
+	}
+	// 业务调用
+	result, err := commentHandler.commentService.SelectCommentsListByPostID(req.PostID)
+	if err != nil {
+		response.Error(c, err.Error())
+		return
+	}
+	response.Success(c, "通过post_id读取评论列表成功", result)
 }

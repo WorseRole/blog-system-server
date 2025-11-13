@@ -1,6 +1,8 @@
 package response
 
-import "time"
+import (
+	"time"
+)
 
 type CreateCommentResponse struct {
 	ID        uint64    `json:"id"`
@@ -9,4 +11,12 @@ type CreateCommentResponse struct {
 	PostID    uint64    `json:"post_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type CommentsResponse struct {
+	ID        uint64       `json:"id"`
+	Content   string       `json:"content"`
+	User      UserResponse `json:"user"`
+	CreatedAt time.Time    `json:"created_at"`
+	UpdatedAt time.Time    `json:"updated_at"`
 }
